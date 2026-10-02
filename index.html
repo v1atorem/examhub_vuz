@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ExamHub — oliygohga kirish uchun matematika</title>
+<meta name="description" content="Oliygohga kirish testiga matematikadan tizimli tayyorgarlik.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#D9480F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+/* ======================= НАСТРОЙКИ ======================= */
+window.LP_CONFIG = {
+  // URL веб-приложения Google Apps Script (Deploy → Web app → URL, заканчивается на /exec)
+  ENDPOINT: 'PASTE_APPS_SCRIPT_WEB_APP_URL_HERE',
+  // ID пикселя Meta. Пусто — пиксель отключён.
+  PIXEL_ID: '',
+  // Код лендинга и название для KeyCRM (не менять без нужды)
+  SITE: 'vuz',
+  SITE_NAME: 'Поступление в вуз'
+};
+</script>
+
+<!-- Meta Pixel (включается, только если указан PIXEL_ID) -->
+<script>
+(function () {
+  var id = window.LP_CONFIG.PIXEL_ID;
+  if (!id) { window.fbq = function () {}; return; }
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', id);
+  fbq('track', 'PageView');
+})();
+</script>
+
+<style>
+  :root {
+    --accent: #D9480F;
+    --accent-dark: #B13A0B;
+    --soft: #FFF1E8;
+    --deep: #2A1206;
+    --ink: #0F172A;
+    --body: #334155;
+    --muted: #64748B;
+    --line: #E2E8F0;
+    --bg: #FFFFFF;
+    --tint: #F6F8FB;
+    --ok: #16A34A;
+    --err: #DC2626;
+  }
+  html[lang="uz"] [data-l="ru"], html[lang="ru"] [data-l="uz"] { display: none !important; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; }
+  body {
+    font-family: 'Manrope', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased;
+    font-size: 16px; line-height: 1.6;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+  /* Шапка */
+  .top { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 12px; }
+  .logo { font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: var(--ink); }
+  .logo span { color: var(--accent); }
+  .langs { display: inline-flex; background: var(--tint); border: 1px solid var(--line); border-radius: 99px; padding: 3px; }
+  .langs button { border: 0; background: transparent; font: inherit; font-size: 13px; font-weight: 700; padding: 5px 12px; border-radius: 99px; cursor: pointer; color: var(--muted); }
+  .langs button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(15,23,42,.12); }
+
+  /* Кнопки */
+  .btn {
+    display: inline-block; padding: 16px 26px; border: 0; border-radius: 14px; background: var(--accent); color: #fff;
+    font: inherit; font-size: 17px; font-weight: 700; text-decoration: none; cursor: pointer; text-align: center;
+    box-shadow: 0 6px 18px -6px var(--accent); transition: background .15s, transform .05s, opacity .15s;
+  }
+  .btn:hover { background: var(--accent-dark); }
+  .btn:active { transform: scale(.99); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn-block { display: block; width: 100%; }
+
+  /* Hero */
+  .hero { background: radial-gradient(120% 80% at 100% 0%, var(--soft) 0%, #fff 60%); padding: 40px 0 44px; }
+  .badge { display: inline-block; background: var(--soft); color: var(--accent-dark); font-weight: 700; font-size: 13px; padding: 6px 12px; border-radius: 99px; border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); }
+  h1 { font-size: 32px; line-height: 1.15; letter-spacing: -0.025em; margin: 16px 0 12px; font-weight: 800; text-wrap: balance; }
+  .sub { font-size: 19px; line-height: 1.4; font-weight: 600; color: var(--accent-dark); margin: 0 0 14px; text-wrap: balance; }
+  .hero-lead { color: var(--body); margin: 0 0 26px; font-size: 17px; }
+  .since { color: var(--muted); font-size: 14px; font-weight: 600; margin: 14px 0 0; }
+
+  /* Секции */
+  .sec { padding: 44px 0; }
+  .sec.tint { background: var(--tint); }
+  .sec.dark { background: var(--deep); color: #fff; }
+  .sec.dark h2 { color: #fff; }
+  .sec.dark p, .sec.dark .b-lead { color: rgba(255,255,255,.88); }
+  h2 { font-size: 25px; line-height: 1.25; letter-spacing: -0.02em; margin: 0 0 18px; font-weight: 800; text-wrap: balance; }
+  h3 { font-size: 17px; line-height: 1.35; margin: 0 0 4px; font-weight: 700; }
+  .sec p { color: var(--body); margin: 0 0 14px; }
+  .sec .b-lead { font-size: 19px; line-height: 1.45; font-weight: 700; color: var(--ink); }
+  .accent { font-size: 19px !important; line-height: 1.45; font-weight: 700; color: var(--ink) !important; border-left: 4px solid var(--accent); padding: 4px 0 4px 16px; margin-top: 18px !important; }
+
+  .tags { list-style: none; padding: 0; margin: 0 0 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tags li { background: var(--soft); color: var(--accent-dark); font-weight: 700; font-size: 15px; padding: 8px 14px; border-radius: 99px; }
+
+  .chain { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 6px 0 18px; }
+  .chain span { background: #fff; border: 1.5px solid var(--line); border-radius: 12px; padding: 9px 13px; font-weight: 700; font-size: 15px; line-height: 1.3; }
+  .tint .chain span { background: #fff; }
+  .chain i { font-style: normal; color: var(--accent); font-weight: 800; }
+
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .steps li { display: flex; gap: 16px; background: #fff; border-radius: 16px; padding: 18px; border: 1px solid var(--line); }
+  .steps .n { flex: 0 0 auto; font-size: 15px; font-weight: 800; color: var(--accent); background: var(--soft); width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; }
+  .steps p { margin: 0; font-size: 15px; }
+
+  .cards { display: grid; gap: 10px; margin: 6px 0 18px; }
+  .cards .c { background: var(--tint); border-radius: 14px; padding: 16px 18px; font-weight: 600; border-left: 4px solid var(--accent); }
+
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tiles .t { background: #fff; border-radius: 16px; padding: 18px; border: 1px solid var(--line); }
+  .tiles .t:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .tiles h3 { color: var(--accent-dark); }
+  .tiles p { margin: 0; font-size: 15px; }
+
+  .cycle { list-style: none; padding: 0; margin: 0; display: grid; gap: 28px; }
+  .cycle li { position: relative; background: var(--tint); border-radius: 16px; padding: 16px 18px; }
+  .cycle li:not(:last-child)::after { content: "↓"; position: absolute; left: 50%; bottom: -26px; transform: translateX(-50%); color: var(--accent); font-weight: 800; font-size: 18px; }
+  .cycle p { margin: 0; font-size: 15px; }
+
+  .about { padding-top: 8px; }
+  .about-card { border: 1px solid var(--line); border-radius: 20px; padding: 22px; }
+  .about-card .logo { margin-bottom: 8px; }
+  .about-card p { margin: 0; }
+  .about-card .since { margin-top: 8px; }
+
+  /* Форма */
+  .form-sec { background: var(--deep); scroll-margin-top: 56px; }
+  .form-card { background: #fff; border-radius: 22px; padding: 26px 20px; box-shadow: 0 20px 50px -20px rgba(0,0,0,.4); }
+  .form-card h2 { margin-bottom: 8px; }
+  .form-sub { color: var(--body); margin: 0 0 20px !important; }
+  .field { margin-bottom: 16px; }
+  .field > label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .field input:not([type="radio"]) {
+    width: 100%; padding: 14px; border: 1.5px solid var(--line); border-radius: 12px; font: inherit; font-size: 16px;
+    background: #fff; color: var(--ink); outline: none;
+  }
+  .field input:focus { border-color: var(--accent); }
+  .field.invalid input:not([type="radio"]) { border-color: var(--err); }
+  .field .err { display: none; color: var(--err); font-size: 13px; margin-top: 5px; }
+  .field.invalid .err { display: block; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { position: relative; cursor: pointer; }
+  .chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .chip > span { display: block; padding: 11px 16px; border: 1.5px solid var(--line); border-radius: 12px; font-weight: 700; font-size: 15px; background: #fff; }
+  .chip input:checked + span { border-color: var(--accent); background: var(--soft); color: var(--accent-dark); }
+  .chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .field.invalid .chip > span { border-color: #FCA5A5; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .form-error { display: none; color: var(--err); font-size: 14px; text-align: center; margin-top: 10px; }
+  .fineprint { font-size: 12px !important; color: var(--muted) !important; text-align: center; margin: 12px 0 0 !important; line-height: 1.5; }
+  .done { text-align: center; padding: 10px 0; }
+  .done .icon { width: 64px; height: 64px; border-radius: 50%; background: #DCFCE7; color: var(--ok); display: grid; place-items: center; font-size: 32px; margin: 0 auto 14px; font-weight: 800; }
+  .done p { color: var(--body); margin: 0; }
+
+  footer { background: var(--deep); color: rgba(255,255,255,.55); font-size: 13px; text-align: center; padding: 0 16px 100px; }
+
+  /* Плавающая кнопка на мобильном */
+  .sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: linear-gradient(transparent, rgba(255,255,255,.95) 30%); transition: transform .25s, opacity .25s; }
+  .sticky.off { transform: translateY(110%); opacity: 0; pointer-events: none; }
+  .sticky .btn { max-width: 688px; margin: 0 auto; }
+
+  .hidden { display: none !important; }
+  @media (min-width: 720px) {
+    h1 { font-size: 44px; }
+    .hero { padding: 72px 0 76px; }
+    .sec { padding: 64px 0; }
+    h2 { font-size: 30px; }
+    .form-card { padding: 36px 32px; }
+    .cards { grid-template-columns: repeat(3, 1fr); }
+    .tiles { grid-template-columns: repeat(3, 1fr); }
+    .tiles .t:last-child:nth-child(odd) { grid-column: auto; }
+    .sticky { display: none; }
+    footer { padding-bottom: 32px; }
+  }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="logo">Exam<span>Hub</span></div>
+  <div class="langs" role="group" aria-label="Til / Язык">
+    <button type="button" data-set-lang="uz" aria-pressed="true">UZ</button>
+    <button type="button" data-set-lang="ru" aria-pressed="false">RU</button>
+  </div>
+</div></header>
+
+<main>
+<div data-l="uz">
+<section class="hero"><div class="wrap">
+  <span class="badge">11-sinf uchun</span>
+  <h1>Matematikadan har bir ball muhim bo‘lishi mumkin</h1>
+  <p class="sub">Farzandingizni oliygohga kirish testiga tayyorlang</p>
+  <p class="hero-lead">ExamHub matematikaga tizimli tayyorlanishga yordam beradi: hozirgi darajani aniqlash, bo‘shliqlarni yopish, test formatini ishlab chiqish va xatolar tufayli ball yo‘qotmaslikni o‘rganish.</p>
+  <a class="btn" href="#form" data-cta="hero">Darajani tekshirish →</a>
+  <p class="since">✓ 2020-yildan beri ishlaymiz</p>
+</div></section><section class="sec"><div class="wrap"><h2>Farzandingiz hozir necha ball to‘plashi mumkin?</h2><p>Imtihongacha bola «matematikani biladi»dek tuyulishi mumkin.</p><p class="b-lead">Ammo haqiqiy natija faqat bilimga bog‘liq emas.</p><p>Quyidagilarni uddalash muhim:</p><div class="chain"><span>masalani tushunish</span><i aria-hidden="true">→</i><span>yechimni tez topish</span><i aria-hidden="true">→</i><span>formulalarni qo‘llash</span><i aria-hidden="true">→</i><span>test bilan ishlash</span><i aria-hidden="true">→</i><span>xatolarni nazorat qilish</span></div><p>Shuning uchun diagnostikadan boshlaymiz.</p></div></section><section class="sec tint"><div class="wrap"><h2>Diagnostika nimani ko‘rsatadi?</h2><div class="tiles"><div class="t"><h3>Hozirgi daraja</h3><p>Bola hozir qayerda turganini tushunamiz.</p></div><div class="t"><h3>Bo‘shliqlar</h3><p>Qo‘shimcha ishlashni talab qiladigan mavzularni topamiz.</p></div><div class="t"><h3>Xatolar</h3><p>Qaysi xatolar takrorlanishini va nima uchun ekanini aniqlaymiz.</p></div><div class="t"><h3>Maqsad</h3><p>Tanlangan ta’lim yo‘li uchun zarur natijani belgilaymiz.</p></div><div class="t"><h3>Reja</h3><p>Izchil tayyorgarlik yo‘lini shakllantiramiz.</p></div></div></div></section><section class="sec"><div class="wrap"><h2>Faqat bilimga emas, natijaga ishlaydigan tayyorgarlik</h2><p>ExamHub’da bola to‘liq tsikldan o‘tadi:</p><ol class="cycle"><li><h3>Dars</h3><p>Mavzuni tushunadi.</p></li><li><h3>Amaliyot</h3><p>Masalalarni mustaqil yechadi.</p></li><li><h3>Test</h3><p>Materialni qanchalik o‘zlashtirganini tekshiradi.</p></li><li><h3>Xatolar ustida ishlash</h3><p>Qayerda va nima uchun ball yo‘qotganini tahlil qiladi.</p></li><li><h3>O‘qituvchi ko‘magi</h3><p>Yordam va fikr-mulohaza oladi.</p></li></ol></div></section><section class="sec tint"><div class="wrap"><h2>Majburiy va profil matematika</h2><p>Agar matematika farzandingizning ta’lim yo‘liga kirsa, oldindan tushunish muhim:</p><div class="chain"><span>qanday daraja kerak</span><i aria-hidden="true">→</i><span>hozir qanday daraja bor</span><i aria-hidden="true">→</i><span>kerakli natijaga nima xalaqit beradi</span></div><p class="accent">Aynan shuning uchun tayyorgarlikni tasodifiy darslar to‘plamidan emas, diagnostikadan boshlash kerak.</p></div></section>
+<section class="sec about"><div class="wrap">
+  <div class="about-card">
+    <div class="logo">Exam<span>Hub</span></div>
+    <p>Darslar + amaliyot + testlar + xatolar ustida ishlash + o‘qituvchi ko‘magi.</p>
+    <p class="since">2020-yildan beri ishlaymiz</p>
+  </div>
+</div></section></div><div data-l="ru">
+<section class="hero"><div class="wrap">
+  <span class="badge">Для 11 класса</span>
+  <h1>Каждый балл по математике может иметь значение</h1>
+  <p class="sub">Подготовьте ребёнка к вступительному тесту в вуз</p>
+  <p class="hero-lead">ExamHub помогает системно подготовиться к математике: определить текущий уровень, закрыть пробелы, отработать тестовый формат и научиться не терять баллы на ошибках.</p>
+  <a class="btn" href="#form" data-cta="hero">Проверить уровень →</a>
+  <p class="since">✓ Работаем с 2020 года</p>
+</div></section><section class="sec"><div class="wrap"><h2>Сколько баллов ребёнок может набрать сейчас?</h2><p>До экзамена может казаться, что ребёнок «знает математику».</p><p class="b-lead">Но реальный результат зависит не только от знаний.</p><p>Важно уметь:</p><div class="chain"><span>понимать задачу</span><i aria-hidden="true">→</i><span>быстро находить решение</span><i aria-hidden="true">→</i><span>применять формулы</span><i aria-hidden="true">→</i><span>работать с тестом</span><i aria-hidden="true">→</i><span>контролировать ошибки</span></div><p>Поэтому начинаем с диагностики.</p></div></section><section class="sec tint"><div class="wrap"><h2>Что покажет диагностика?</h2><div class="tiles"><div class="t"><h3>Текущий уровень</h3><p>Понимаем, где ребёнок находится сейчас.</p></div><div class="t"><h3>Пробелы</h3><p>Находим темы, которые требуют дополнительной работы.</p></div><div class="t"><h3>Ошибки</h3><p>Определяем, какие ошибки повторяются и почему.</p></div><div class="t"><h3>Цель</h3><p>Фиксируем необходимый результат для выбранной образовательной траектории.</p></div><div class="t"><h3>План</h3><p>Формируем последовательный путь подготовки.</p></div></div></div></section><section class="sec"><div class="wrap"><h2>Подготовка, которая работает не только на знания</h2><p>В ExamHub ребёнок проходит полный цикл:</p><ol class="cycle"><li><h3>Урок</h3><p>Понимает тему.</p></li><li><h3>Практика</h3><p>Решает задачи самостоятельно.</p></li><li><h3>Тест</h3><p>Проверяет, насколько хорошо усвоил материал.</p></li><li><h3>Работа над ошибками</h3><p>Разбирает, где и почему потерял баллы.</p></li><li><h3>Поддержка преподавателя</h3><p>Получает помощь и обратную связь.</p></li></ol></div></section><section class="sec tint"><div class="wrap"><h2>Обязательная и профильная математика</h2><p>Если математика входит в образовательную траекторию ребёнка, важно заранее понимать:</p><div class="chain"><span>какой уровень нужен</span><i aria-hidden="true">→</i><span>какой уровень есть сейчас</span><i aria-hidden="true">→</i><span>что мешает получить нужный результат</span></div><p class="accent">Именно поэтому подготовку стоит начинать с диагностики, а не со случайного набора занятий.</p></div></section>
+<section class="sec about"><div class="wrap">
+  <div class="about-card">
+    <div class="logo">Exam<span>Hub</span></div>
+    <p>Уроки + практика + тесты + работа над ошибками + поддержка преподавателя.</p>
+    <p class="since">Работаем с 2020 года</p>
+  </div>
+</div></section></div>
+
+<section class="sec form-sec" id="form"><div class="wrap">
+  <div class="form-card" id="formCard">
+    <h2><span data-l="uz">Tayyorgarlikni nimadan boshlashni bilib oling</span><span data-l="ru">Узнайте, с чего начать подготовку</span></h2>
+    <p class="form-sub"><span data-l="uz">Ariza qoldiring — ExamHub mutaxassisi siz bilan bog‘lanib, diagnostika vaqtini kelishib oladi.</span><span data-l="ru">Оставьте заявку — специалист ExamHub свяжется с вами и согласует время диагностики.</span></p>
+    <form id="leadForm" novalidate>
+      <div class="field" id="f-name">
+        <label for="name"><span data-l="uz">Ota-onaning ismi</span><span data-l="ru">Имя родителя</span></label>
+        <input id="name" name="name" autocomplete="name" maxlength="80">
+        <div class="err"><span data-l="uz">Ismingizni kiriting</span><span data-l="ru">Укажите имя</span></div>
+      </div>
+      <div class="field" id="f-phone">
+        <label for="phone"><span data-l="uz">Telefon raqami</span><span data-l="ru">Номер телефона</span></label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+998 __ ___ __ __">
+        <div class="err"><span data-l="uz">Telefon raqamini tekshiring</span><span data-l="ru">Проверьте номер телефона</span></div>
+      </div>
+      <div class="field" id="f-grade">
+        <label><span data-l="uz">Farzandingiz sinfi</span><span data-l="ru">Класс ребёнка</span></label>
+        <div class="chips"><label class="chip"><input type="radio" name="grade" value="10 класс"><span><span data-l="uz">10-sinf</span><span data-l="ru">10 класс</span></span></label><label class="chip"><input type="radio" name="grade" value="11 класс"><span><span data-l="uz">11-sinf</span><span data-l="ru">11 класс</span></span></label><label class="chip"><input type="radio" name="grade" value="Выпускник"><span><span data-l="uz">Bitiruvchi</span><span data-l="ru">Выпускник</span></span></label></div>
+        <div class="err"><span data-l="uz">Sinfni tanlang</span><span data-l="ru">Выберите класс</span></div>
+      </div>
+      <div class="hp" aria-hidden="true"><input name="website" id="website" tabindex="-1" autocomplete="off"></div>
+      <button class="btn btn-block" type="submit" id="submitBtn"><span id="submitText">Diagnostikaga yozilish</span></button>
+      <div class="form-error" id="formError"><span data-l="uz">Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring.</span><span data-l="ru">Не удалось отправить. Проверьте интернет и попробуйте ещё раз.</span></div>
+      <p class="fineprint"><span data-l="uz">Tugmani bosish orqali shaxsiy ma’lumotlarni qayta ishlashga rozilik bildirasiz.</span><span data-l="ru">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</span></p>
+    </form>
+    <div class="done hidden" id="done">
+      <div class="icon">✓</div>
+      <h2><span data-l="uz">Rahmat! Arizangiz qabul qilindi</span><span data-l="ru">Спасибо! Заявка принята</span></h2>
+      <p><span data-l="uz">ExamHub mutaxassisi tez orada siz bilan bog‘lanadi va diagnostika vaqtini kelishib oladi.</span><span data-l="ru">Специалист ExamHub свяжется с вами в ближайшее время и согласует время диагностики.</span></p>
+    </div>
+  </div>
+</div></section>
+</main>
+<footer>© ExamHub</footer>
+
+<div class="sticky off" id="sticky"><a class="btn btn-block" href="#form" data-cta="sticky"><span data-l="uz">Darajani tekshirish</span><span data-l="ru">Проверить уровень</span> →</a></div>
+
+<script>
+(function () {
+  'use strict';
+  var CFG = window.LP_CONFIG;
+  var UI = {"uz": {"name": "Ota-onaning ismi", "name_ph": "Sizga qanday murojaat qilaylik", "phone": "Telefon raqami", "grade": "Farzandingiz sinfi", "err_name": "Ismingizni kiriting", "err_phone": "Telefon raqamini tekshiring", "err_grade": "Sinfni tanlang", "submit": "Diagnostikaga yozilish", "sending": "Yuborilmoqda…", "err_send": "Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring.", "consent": "Tugmani bosish orqali shaxsiy ma’lumotlarni qayta ishlashga rozilik bildirasiz.", "done_t": "Rahmat! Arizangiz qabul qilindi", "done_d": "ExamHub mutaxassisi tez orada siz bilan bog‘lanadi va diagnostika vaqtini kelishib oladi."}, "ru": {"name": "Имя родителя", "name_ph": "Как к вам обращаться", "phone": "Номер телефона", "grade": "Класс ребёнка", "err_name": "Укажите имя", "err_phone": "Проверьте номер телефона", "err_grade": "Выберите класс", "submit": "Записаться на диагностику", "sending": "Отправляем…", "err_send": "Не удалось отправить. Проверьте интернет и попробуйте ещё раз.", "consent": "Нажимая кнопку, вы соглашаетесь на обработку персональных данных.", "done_t": "Спасибо! Заявка принята", "done_d": "Специалист ExamHub свяжется с вами в ближайшее время и согласует время диагностики."}, "meta": {"uz": {"title": "ExamHub — oliygohga kirish uchun matematika", "desc": "Oliygohga kirish testiga matematikadan tizimli tayyorgarlik.", "cta": "Darajani tekshirish"}, "ru": {"title": "ExamHub — математика для поступления в вуз", "desc": "Системная подготовка к вступительному тесту по математике.", "cta": "Проверить уровень"}}};
+
+  /* ================== ЯЗЫК ================== */
+  var LANG_KEY = 'examhub_lang';
+  var lang = 'uz';
+  function safeGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function safeSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  function setLang(l) {
+    lang = l === 'ru' ? 'ru' : 'uz';
+    document.documentElement.lang = lang;
+    document.title = UI.meta[lang].title;
+    var md = document.querySelector('meta[name="description"]');
+    if (md) md.setAttribute('content', UI.meta[lang].desc);
+    document.getElementById('name').placeholder = UI[lang].name_ph;
+    if (!state.sending) document.getElementById('submitText').textContent = UI[lang].submit;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-set-lang]'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-set-lang') === lang ? 'true' : 'false');
+    });
+    safeSet(LANG_KEY, lang);
+  }
+
+  /* ================== UTM / АТРИБУЦИЯ ================== */
+  var TRACK_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid'];
+  var STORE_KEY = 'examhub_' + CFG.SITE + '_attr';
+  var params = new URLSearchParams(location.search);
+
+  function getCookie(name) {
+    var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+
+  var attribution = (function () {
+    var fromUrl = {}, hasNew = false;
+    TRACK_KEYS.forEach(function (k) {
+      var v = params.get(k);
+      if (v) { fromUrl[k] = v.slice(0, 250); hasNew = true; }
+    });
+    var saved = null;
+    try { saved = JSON.parse(safeGet(STORE_KEY) || 'null'); } catch (e) {}
+    // Новые метки в URL перезаписывают старые (last click), иначе берём сохранённые
+    var attr = hasNew ? fromUrl : (saved || {});
+    if (hasNew) {
+      attr.landing_url = location.href.slice(0, 1000);
+      attr.referrer = document.referrer.slice(0, 500);
+      attr.first_seen = new Date().toISOString();
+      safeSet(STORE_KEY, JSON.stringify(attr));
+    }
+    if (!attr.landing_url) attr.landing_url = location.href.slice(0, 1000);
+    if (!attr.referrer) attr.referrer = document.referrer.slice(0, 500);
+    return attr;
+  })();
+
+  // Данные для сопоставления с Facebook: cookie пикселя _fbp и клик-ID _fbc
+  function fbData() {
+    var fbc = getCookie('_fbc');
+    if (!fbc && attribution.fbclid) {
+      var ts = Date.parse(attribution.first_seen || '') || Date.now();
+      fbc = 'fb.1.' + ts + '.' + attribution.fbclid;
+    }
+    return { fbp: getCookie('_fbp'), fbc: fbc };
+  }
+
+  /* ================== ФОРМА ================== */
+  var state = { sending: false, started: false };
+  var form = document.getElementById('leadForm');
+  var phone = document.getElementById('phone');
+
+  function digits(v) { return (v || '').replace(/\D/g, ''); }
+  function formatPhone(v) {
+    var d = digits(v);
+    if (!d.startsWith('998')) return d ? '+' + d.slice(0, 15) : '';
+    d = d.slice(0, 12);
+    var out = '+998', rest = d.slice(3);
+    if (rest.length) out += ' ' + rest.slice(0, 2);
+    if (rest.length > 2) out += ' ' + rest.slice(2, 5);
+    if (rest.length > 5) out += ' ' + rest.slice(5, 7);
+    if (rest.length > 7) out += ' ' + rest.slice(7, 9);
+    return out;
+  }
+  function validPhone(v) {
+    var d = digits(v);
+    if (d.startsWith('998')) return d.length === 12;
+    return d.length >= 10 && d.length <= 15;
+  }
+
+  phone.addEventListener('focus', function () { if (!phone.value) phone.value = '+998 '; });
+  phone.addEventListener('input', function () { phone.value = formatPhone(phone.value); });
+  phone.addEventListener('blur', function () { if (digits(phone.value) === '998') phone.value = ''; });
+
+  form.addEventListener('focusin', function () {
+    if (state.started) return;
+    state.started = true;
+    fbq('trackCustom', 'FormStart', { content_name: CFG.SITE_NAME });
+  });
+  form.addEventListener('change', function (ev) {
+    if (ev.target.name === 'grade') document.getElementById('f-grade').classList.remove('invalid');
+  });
+  document.getElementById('name').addEventListener('input', function () {
+    if (this.value.trim()) document.getElementById('f-name').classList.remove('invalid');
+  });
+  phone.addEventListener('input', function () {
+    if (validPhone(phone.value)) document.getElementById('f-phone').classList.remove('invalid');
+  });
+
+  function selectedGrade() {
+    var el = form.querySelector('input[name="grade"]:checked');
+    return el ? el.value : '';
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    if (state.sending) return;
+    var name = document.getElementById('name').value.trim();
+    var phoneVal = phone.value.trim();
+    var grade = selectedGrade();
+
+    var okName = !!name, okPhone = validPhone(phoneVal), okGrade = !!grade;
+    document.getElementById('f-name').classList.toggle('invalid', !okName);
+    document.getElementById('f-phone').classList.toggle('invalid', !okPhone);
+    document.getElementById('f-grade').classList.toggle('invalid', !okGrade);
+    if (!okName || !okPhone || !okGrade) {
+      var first = form.querySelector('.field.invalid');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Honeypot: боты заполняют скрытое поле
+    if (document.getElementById('website').value) { showDone(); return; }
+
+    var eventId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    var payload = {
+      site: CFG.SITE,
+      site_name: CFG.SITE_NAME,
+      lang: lang,
+      name: name.slice(0, 80),
+      phone: '+' + digits(phoneVal),
+      grade: grade,
+      attribution: attribution,
+      fb: fbData(),
+      event_id: eventId,
+      event_time: Math.floor(Date.now() / 1000),
+      page_url: location.href.slice(0, 1000),
+      user_agent: navigator.userAgent,
+      submitted_at: new Date().toISOString()
+    };
+
+    var btn = document.getElementById('submitBtn');
+    var errEl = document.getElementById('formError');
+    state.sending = true;
+    btn.disabled = true;
+    document.getElementById('submitText').textContent = UI[lang].sending;
+    errEl.style.display = 'none';
+
+    // text/plain — «простой» запрос без CORS-preflight, Apps Script его принимает
+    fetch(CFG.ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      if (!res || !res.ok) throw new Error((res && res.error) || 'bad response');
+      // Тот же eventID уходит в Conversions API с сервера — Facebook склеит дубли
+      fbq('track', 'Lead', { content_name: CFG.SITE_NAME, content_category: grade }, { eventID: eventId });
+      showDone();
+    })
+    .catch(function (err) {
+      console.error(err);
+      state.sending = false;
+      btn.disabled = false;
+      document.getElementById('submitText').textContent = UI[lang].submit;
+      errEl.style.display = 'block';
+    });
+  });
+
+  function showDone() {
+    form.classList.add('hidden');
+    form.parentNode.querySelector('h2').classList.add('hidden');
+    form.parentNode.querySelector('.form-sub').classList.add('hidden');
+    document.getElementById('done').classList.remove('hidden');
+    document.getElementById('form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ================== ПЛАВАЮЩАЯ КНОПКА ================== */
+  var sticky = document.getElementById('sticky');
+  setTimeout(function () { if (!('IntersectionObserver' in window)) sticky.classList.remove('off'); }, 0);
+  if ('IntersectionObserver' in window) {
+    var visible = new Set();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { en.isIntersecting ? visible.add(en.target) : visible.delete(en.target); });
+      sticky.classList.toggle('off', visible.size > 0);
+    }, { threshold: 0 });
+    io.observe(document.getElementById('form'));
+    Array.prototype.forEach.call(document.querySelectorAll('.hero .btn'), function (b) { io.observe(b); });
+  }
+
+  /* ================== СТАРТ ================== */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-set-lang]'), function (b) {
+    b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); });
+  });
+  // ?lang=ru в ссылке объявления → страница сразу на русском
+  setLang(params.get('lang') || safeGet(LANG_KEY) || 'uz');
+})();
+</script>
+</body>
+</html>
